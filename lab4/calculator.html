@@ -1,0 +1,60 @@
+<html>
+
+<center><object width="250" height="250" data="banner.jpg"></object></center>
+<body>
+<a href="./index.html">home</a><br>
+<a href="./calculator.html">calculator</a><br>
+<a href="./weather.html">weather</a><br>
+</body>
+<p>
+<h> summation or factorial</h>
+<body>
+<br>
+<select id = "dbox">
+    <option value="summation">summation</option>
+    <option value="factorial">Factorial</option>
+</select>
+<br>
+<br>
+<input type="text" id="input">
+<button type="button" id="send" onclick="request()">send!</button>
+<br>
+<div id="div1">
+</div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+</script>
+<script>
+
+function request(){
+var input = document.getElementById('input').value;
+var seed = parseInt(input);
+if (isNaN(input))
+{
+	document.getElementById("div1").innerHTml = "input is a number :(";
+}
+else if (seed <= 0)
+{
+	document.getElementById("div1").innerHTml = "put positive number, learn your math";
+}
+else
+{
+var dbox = document.getElementById('dbox');
+var type = dbox.options[dbox.selectedIndex].value;
+var URL = "http://localhost:8080/"+ type + "?n=" + seed;
+$.ajax({
+type: "GET",
+url: URL,
+contentType: "application/json; charset=utf-8", 
+data: seed,
+dataType: "html",
+success: function(msg) {
+var json = msg; //NOTE since we said we’re getting back jsonp, jQuery did the parsing for us!
+document.getElementById("div1").innerHTML=json; },
+//error: function (xhr, ajaxOptions, thrownError) { document.getElementById("current").innerHTML = “Error fetching “ + URL;
+});
+}
+}
+</script>
+</p>
+</html>

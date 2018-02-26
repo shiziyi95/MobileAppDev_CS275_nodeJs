@@ -1,0 +1,24 @@
+<html>
+
+<head>
+<title>Wunderground Node Example</title> </head>
+<body>
+Zip code:<input type=text id="zipcode" /> <input type=button onclick="requestWeather()" value="Get Weather!"/> <div id=current></div>
+</body>
+<script>
+function requestWeather(){
+    var zip = $("#zipcode").val();
+    params = {
+city: zip };
+    var URL = "./getWeather";
+    $.ajax({
+type: "POST",
+url : URL,
+dataType : "text",
+data : params,
+success : function(msg){
+document.getElementById("current").innerHTML = msg; },
+error: function(jgXHR, textStatus,errorThrown){ alert("Error: " + textStatus + " " + errorThrown);
+} });
+} </script>
+</html>

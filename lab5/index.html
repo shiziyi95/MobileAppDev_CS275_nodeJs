@@ -1,0 +1,39 @@
+<html>
+<h>Lab5: SQL</h>
+<body>
+<br>
+<select id = "dbox">
+  <option value="grade">grade</option>
+  <option value="COURSE">course</option>
+    <option value="STUDENT">student</option>
+</select>
+<br>
+<br>
+<button type="button" id="send" onclick="request()">send!</button>
+<br>
+<div id="div1">
+</div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+</script>
+<script>
+
+function request(){
+
+var dbox = document.getElementById('dbox');
+var type = dbox.options[dbox.selectedIndex].value;
+var URL = "http://localhost:3000/"+ type;
+$.ajax({
+type: "GET",
+url: URL,
+contentType: "application/json; charset=utf-8", 
+dataType: "html",
+success: function(msg) {
+var json = msg; //NOTE since we said we’re getting back jsonp, jQuery did the parsing for us!
+document.getElementById("div1").innerHTML=json; },
+//error: function (xhr, ajaxOptions, thrownError) { document.getElementById("current").innerHTML = “Error fetching “ + URL;
+});
+
+}
+</script>
+</html>

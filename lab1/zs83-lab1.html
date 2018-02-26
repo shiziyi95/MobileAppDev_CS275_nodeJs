@@ -1,0 +1,76 @@
+<html>
+<title>
+Fibonacci Number 
+</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+</script>
+<script>
+function getWhether()
+{
+
+			function getHour(zip)
+			{
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() 
+				{
+					if(xhttp.readyState == 4 && xhttp.status == 200) 
+					{
+						var json = $.parseJSON(xhttp.responseText);
+						var i = 1
+						while(i<=12)
+						{
+							i +=1
+							var time = json.hourly_forecast[i].FCTTIME.pretty;
+							var weatherUrl  = json.hourly_forecast[i].icon_url;
+							var temp = json.hourly_forecast[i].temp.english;
+							document.getElementById("div1").innerHTML+=time+" " + "<img src='" + weatherUrl+"'/>"
+							+ temp + "<br/>";
+						}
+					} // end of "if" statement
+				} // end of function().....
+				
+				var key = document.getElementById('but1').value;
+				var URL = "http://api.wunderground.com/api/"+key+"/hourly/q/"+zip+".json";
+				xhttp.open("GET",URL,true);
+				xhttp.send();
+			}
+
+//jQ test
+var xhttp = new XMLHttpRequest(); 
+xhttp.onreadystatechange = function() 
+{
+	if(xhttp.readyState == 4 && xhttp.status == 200) 
+	{
+		var json = $.parseJSON(xhttp.responseText);
+		var city = json.location.city;
+		var state = json.location.state;
+		var zip = json.location.zip;
+
+		document.getElementById("div1").innerHTML+=city+ ", " + state + " " + zip + "<br>";
+	} // end of if...
+
+	getHour(zip);//get hourly of the weather in of zip
+				
+}
+var key = document.getElementById('but1').value; //
+var key2 = $("#but1");
+var URL = "http://api.wunderground.com/api/"+ key +"/geolookup/q/autoip.json"
+
+xhttp.open("GET",URL,true);
+xhttp.send();
+document.getElementById("div1").innerHTML = URL;
+document.getElementById("div1").innerHTML = key;
+
+
+}
+</script>
+
+<body>
+<input type=text id="but1"> <input type=button onclick="getWhether()" value="Get Weather!"> 
+
+<div id=div1>
+</div>
+
+</body>
+
+</html>

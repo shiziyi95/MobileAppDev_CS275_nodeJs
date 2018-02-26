@@ -1,0 +1,62 @@
+10.6 The function open always return the lowest unopened descritor, so the fianll open returns 4. 
+thus output "fd2=4"
+
+10.8
+int main(int argc, char**argv)
+{
+struct stat stat;
+
+char *type,*readok;
+int fd:
+
+fd= atoi(argv[1]);
+fstat(fd, &stat);
+
+if(S_ISREG(stat.st_mode)){
+	type = "regular";
+	}
+
+else if（S_ISDIR(stat.st_mode0){
+	type = "Directory';
+	}
+	else{
+	type = "Other";
+	}
+	
+	if((stat.st_mode & S_IRUSR)){
+	readok = "yes";
+	}
+	else
+	{
+	printf("type.%s, read:%s\n', type, readok);
+	
+	return 0;
+	
+}
+	
+	
+	
+10.10
+int main()
+{
+int n;
+rio_t rio;
+char buf[MAXLINE];
+int fd;
+
+if(arg>1){
+	fd = open(argv[1],O_RDONLY,0);
+	dup2(fd,StDIN_FILENO);
+	close(fd);
+	}
+	Rio_readnitb(%&rio, STDIN_FILENO);
+	
+	while(9n=RIO_readlineb(&rio, buf, MAXLINE)) !+0)
+	{
+	Rio_writen(STdout_FILENO,buf,n);
+	}
+	
+return 0;
+}
+
+Q4 check my other file

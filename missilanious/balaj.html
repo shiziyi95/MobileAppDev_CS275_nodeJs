@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<!--Title-->
+		<title>Weather Wunderground</title>
+	</head>
+	<body>
+		
+		<!--Form elements: Textbox and Button-->
+		<!--<form>-->
+			<input type="text" name="textbox" id="textbox_1"><br>
+			<input type="button" id="button" value="Compute!" onClick="requestWeather()">
+		<!--</form>-->
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+		</script>
+		
+		<!--JavaScript starts here-->
+		<script TYPE="text/JavaScript">
+		//Place JavaScript content here
+			
+			function onClick(form)
+			{
+				var text = document.getElementById("textbox_1").value;
+				document.getElementById("current").innerHTML=text;
+				
+			}
+		</script>	
+		<script>	
+			function requestWeather()
+			{
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if(xhttp.readyState == 4 && xhttp.status == 200) 
+					{
+						var json = $.parseJSON(xhttp.responseText);
+						//var city = json.location.city;
+						var city = json.location.city;
+						var state = json.location.state;
+						var zip = json.location.zip;
+						/*for (i = 0; i < 10; i++)
+						{
+							var time = json.hourly_forecast[i].FCTTIME.pretty;
+							var weatherUrl  = json.hourly_forecast[i].icon_url;
+							var temp = json.hourly_forecast[i].temp.english;
+							document.getElementById("current").innerHTML+=time+" " + "<img src='" + weatherUrl+"'/>"
+							+ temp + "<br/>";
+						}*/
+						document.getElementById("current").innerHTML+=city+ ", " + state + " " + zip + "<br>";
+					} // end of "if" statement
+					requestHourly(zip);
+				} // end of function().....
+				
+				var key = $("#textbox_1");
+				var URL = "http://api.wunderground.com/api/"+key.val()+"/geolookup/q/autoip.json";
+				xhttp.open("GET",URL,true);
+				xhttp.send();
+				document.getElementById("current").innerHTML = key;
+
+			}
+			
+		</script>
+		<script>	
+			function requestHourly(zip)
+			{
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if(xhttp.readyState == 4 && xhttp.status == 200) 
+					{
+						var json = $.parseJSON(xhttp.responseText);
+						//var city = json.location.city;
+						//var city = json.location.city;
+						//var state = json.location.state;
+						//var zip = json.location.zip;
+						for (i = 0; i < 10; i++)
+						{
+							var time = json.hourly_forecast[i].FCTTIME.pretty;
+							var weatherUrl  = json.hourly_forecast[i].icon_url;
+							var temp = json.hourly_forecast[i].temp.english;
+							document.getElementById("current").innerHTML+=time+" " + "<img src='" + weatherUrl+"'/>"
+							+ temp + "<br/>";
+						}
+					} // end of "if" statement
+				} // end of function().....
+				
+				var key = $("#textbox_1");
+				var URL = "http://api.wunderground.com/api/"+key.val()+"/hourly/q/"+zip+".json";
+				xhttp.open("GET",URL,true);
+				xhttp.send();
+			}
+			
+		</script>
+		<!-- div tag -->
+		<div id="current"></div>
+
+	</body>
+
+</html>
